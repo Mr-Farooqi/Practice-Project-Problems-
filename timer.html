@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function startTimer() {
+            document.getElementById("message").innerText = "Timer started for 1 minute.";
+            setTimeout(function() {
+                document.getElementById("message").innerText = "Time's up!";
+                const randomNumber = Math.floor(Math.random() * 10);
+                document.getElementById("randomNumber").innerText = "Random number generated: " + randomNumber;
+            }, 60000); // 60000 milliseconds = 1 minute
+        }
+    </script>
+</head>
+<body>
+    <button onclick="startTimer()">Start Timer</button>
+    <p id="message"></p>
+    <p id="randomNumber"></p>
+</body>
+</html>
