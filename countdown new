@@ -1,0 +1,146 @@
+To achieve a continuously running 1-minute countdown timer that generates a number and displays it in a table, with an additional button that, when clicked, causes the button's value to be displayed instead of the generated number, you can modify the previous example as follows:
+
+### HTML
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Minute Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="countdown">60</div>
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>Count</th>
+                <th>Generated Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Generated numbers will appear here -->
+        </tbody>
+    </table>
+    <button id="override-button">Override Value</button>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+### CSS (styles.css)
+
+```css
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+#countdown {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+}
+```
+
+### JavaScript (script.js)
+
+```javascript
+let countdownElement = document.getElementById('countdown');
+let resultsTableBody = document.querySelector('#results-table tbody');
+let overrideButton = document.getElementById('override-button');
+let timeLeft = 60;
+let count = 1;
+let overrideMode = false;
+
+overrideButton.addEventListener('click', () => {
+    overrideMode = true;
+});
+
+function updateCountdown() {
+    if (timeLeft > 0) {
+        countdownElement.textContent = timeLeft;
+        timeLeft--;
+        setTimeout(updateCountdown, 1000);
+    } else {
+        if (overrideMode) {
+            displayOverrideValue();
+            overrideMode = false;  // Reset override mode
+        } else {
+            generateNumber();
+        }
+        timeLeft = 60;  // Reset countdown
+        updateCountdown();  // Start countdown again
+    }
+}
+
+function generateNumber() {
+    // Custom rule to generate a number (example: increase by 5 each time)
+    let randomNumber = count * 5;
+    
+    let newRow = resultsTableBody.insertRow();
+    let countCell = newRow.insertCell(0);
+    let numberCell = newRow.insertCell(1);
+    
+    countCell.textContent = count++;
+    numberCell.textContent = randomNumber;
+}
+
+function displayOverrideValue() {
+    let overrideValue = overrideButton.textContent;
+    
+    let newRow = resultsTableBody.insertRow();
+    let countCell = newRow.insertCell(0);
+    let numberCell = newRow.insertCell(1);
+    
+    countCell.textContent = count++;
+    numberCell.textContent = overrideValue;
+}
+
+updateCountdown();
+```
+
+### Instructions
+
+1. **Create the HTML File:**
+   Save the HTML content in a file named `index.html`.
+
+2. **Create the CSS File:**
+   Save the CSS content in a file named `styles.css` and place it in the same directory as `index.html`.
+
+3. **Create the JavaScript File:**
+   Save the JavaScript content in a file named `script.js` and place it in the same directory as `index.html`.
+
+4. **Open the HTML File:**
+   Open `index.html` in a web browser. You should see the countdown starting from 60 seconds. After 1 minute, a number (based on a custom rule) will be generated and displayed in a table. The countdown will then restart, continuing this process indefinitely.
+
+When you click the "Override Value" button, the value "Override Value" will be displayed in the table instead of the generated number for that cycle. The countdown will then continue as normal, generating numbers on subsequent cycles unless the button is clicked again.
