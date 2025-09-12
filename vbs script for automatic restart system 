@@ -1,0 +1,20 @@
+' restart_after_2min.vbs
+' Description: Run this script to schedule a restart after 2 minutes (120 seconds).
+
+Option Explicit
+
+Dim shell, seconds
+seconds = 120 ' 120 seconds = 2 minutes
+
+Set shell = CreateObject("WScript.Shell")
+
+' Schedule a restart after `seconds` seconds
+' /r = restart, /t = seconds timeout, /f = force close apps (optional)
+shell.Run "shutdown /r /t " & seconds & " /f", 0, False
+
+' Optional: Show a small notification to user (comment out if not wanted)
+On Error Resume Next
+shell.Popup "System will restart in " & (seconds \ 60) & " minute(s). Save your work now.", 5, "Restart Scheduled", 64
+On Error GoTo 0
+
+Set shell = Nothing
