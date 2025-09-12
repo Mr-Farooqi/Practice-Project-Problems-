@@ -1,3 +1,15 @@
+Thik hai — niche ek simple **VBScript (.vbs)** diya hua hai jo run hote hi system ko **2 minute (120 seconds)** ke baad restart schedule kar dega. Saath mein ek **cancel** script aur “Startup mein chalane” ka tarika bhi diya hai. Pehle ek important warning:
+
+**Warning (जरूरी):**
+Ye script **computers ko restart karne** ke liye hai — use sirf apne khud ke PC par aur apne permission se hi chalaiye. Agar aap kisi aur ke PC par bina unki ijazat ke chalayenge to woh nuksan ya disruption ho sakta hai. Agar aap chahte hain ki main isko kisi specific use-case (jaise: testing, scheduled maintenance) ke liye customize karu to bataiye.
+
+---
+
+# 1) Restart schedule karne wala VBScript
+
+Isko `restart_after_2min.vbs` naam se save kar lijiye:
+
+```vb
 ' restart_after_2min.vbs
 ' Description: Run this script to schedule a restart after 2 minutes (120 seconds).
 
@@ -18,3 +30,76 @@ shell.Popup "System will restart in " & (seconds \ 60) & " minute(s). Save your 
 On Error GoTo 0
 
 Set shell = Nothing
+```
+
+**Kaise chalaye:**
+
+* File ko double-click kar ke run karein.
+* Agar aap chahte hain boot (startup) par automatic run ho to is file ko Windows Startup folder mein daal dein (instructions neeche).
+
+---
+
+# 2) Restart cancel karne wala VBScript
+
+Agar aap schedule cancel karna chahte hain, ye `cancel_restart.vbs` bana kar run karein:
+
+```vb
+' cancel_restart.vbs
+' Description: Cancels any scheduled shutdown/restart.
+
+Option Explicit
+Dim shell
+Set shell = CreateObject("WScript.Shell")
+
+' Cancel any pending shutdown/restart
+shell.Run "shutdown /a", 0, False
+
+' Optional message
+On Error Resume Next
+shell.Popup "Scheduled restart cancelled (if any).", 3, "Cancelled", 64
+On Error GoTo 0
+
+Set shell = Nothing
+```
+
+Ya phir Command Prompt mein `shutdown /a` bhi likh kar press karein.
+
+---
+
+# 3) Agar aap chahte hain ye script **Windows startup** par chale
+
+1. `restart_after_2min.vbs` ko kahin safe folder mein rakh lijiye (e.g., `C:\Scripts\restart_after_2min.vbs`).
+2. `Win + R` dabayein, phir `shell:startup` type karke Enter karein — ye aapke current user ka Startup folder khol dega.
+3. Startup folder mein script ka shortcut paste kar dein (direct file paste karne se bhi chalega).
+   Ab jab bhi user login karega, script run hogi aur 2 minute baad restart schedule ho jayega.
+
+> Note: Agar aap chahte hain ki script **har system boot (sab users)** par chale, to Startup folder ke bajaye `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp` mein shortcut daalein — lekin iske liye admin rights chahiye ho sakte hain.
+
+---
+
+# 4) Admin rights aur /f flag ke baare mein
+
+* `shutdown /r /t 120` aam taur par user session mein chal jayega. Agar system policies restrict kar rahi hain to admin rights zaroori ho sakte hain.
+* ` /f` flag apps ko force close kar deta hai (unsaved kaam lose ho sakta hai). Agar aap nahi chahte to ` /f` hata dein:
+  `shell.Run "shutdown /r /t " & seconds, 0, False`
+
+---
+
+# 5) Extra — agar aap chahen to script ko background mein bina popup ke chalana
+
+Uparwala script already background run karta hai (`0, False`). Agar popup message bhi nahi chahiye to `shell.Popup` wali line hata dein.
+
+---
+
+Mujhe bataiye agar:
+
+* Aap chahte hain timeout ko **2 minute se change** karna (ex: 5 min).
+* Ya chahte hain script sirf ek baar (first boot ke liye) chale — main uske liye Scheduled Task wala method bata dunga.
+* Ya chahte hain ek simple GUI confirm dialog add karun.
+
+Project/solution ID for future reference: **RFQ-VBS-20250912-01** (agar aap chahen, main har code/solution ko aise unique IDs deta rahunga).
+
+
+
+
+https://chatgpt.com/s/t_68c45821e910819187f2983c63df2ee9
