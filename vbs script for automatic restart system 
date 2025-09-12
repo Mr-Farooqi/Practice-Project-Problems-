@@ -1,4 +1,4 @@
-Thik hai — niche ek simple **VBScript (.vbs)** diya hua hai jo run hote hi system ko **2 minute (120 seconds)** ke baad restart schedule kar dega. Saath mein ek **cancel** script aur “Startup mein chalane” ka tarika bhi diya hai. Pehle ek important warning:
+ Thik hai — niche ek simple **VBScript (.vbs)** diya hua hai jo run hote hi system ko **2 minute (120 seconds)** ke baad restart schedule kar dega. Saath mein ek **cancel** script aur “Startup mein chalane” ka tarika bhi diya hai. Pehle ek important warning:
 
 **Warning (जरूरी):**
 Ye script **computers ko restart karne** ke liye hai — use sirf apne khud ke PC par aur apne permission se hi chalaiye. Agar aap kisi aur ke PC par bina unki ijazat ke chalayenge to woh nuksan ya disruption ho sakta hai. Agar aap chahte hain ki main isko kisi specific use-case (jaise: testing, scheduled maintenance) ke liye customize karu to bataiye.
