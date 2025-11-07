@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Security & Surveillance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            background: #000000;
+        }
+
+        #canvas3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #a78bfa;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #d1d5db;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        .section-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-number {
+            font-size: 14px;
+            color: #a78bfa;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .card p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-left-color: #a78bfa;
+        }
+
+        .tech-item h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .overview-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .overview-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            margin-top: 10px;
+        }
+
+        .contact-info {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .contact-info p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 30px;
+        }
+
+        .contact-email {
+            font-size: 24px;
+            color: #a78bfa;
+            margin: 20px 0;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .social-icon:hover {
+            background: rgba(102, 126, 234, 0.4);
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas3d"></canvas>
+
+    <div class="content">
+        <nav>
+            <div class="logo">AI Technology</div>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#technologies">Technologies</a></li>
+                <li><a href="#applications">Applications</a></li>
+                <li><a href="#future">Future</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <h1>Revolutionizing Safety</h1>
+            <p>Leverage the power of AI in modern security & surveillance</p>
+            <button class="cta-button" onclick="document.getElementById('overview').scrollIntoView({behavior: 'smooth'})">Learn More</button>
+        </section>
+
+        <section id="overview">
+            <span class="section-label">What We Do</span>
+            <h2 class="section-title">AI-Powered Monitoring</h2>
+            <div class="overview-content">
+                <p>In today's hyper-connected and data-driven world, Artificial Intelligence has emerged as the backbone of modern security and surveillance systems. Traditional security relied heavily on human monitoring and manual analysis of data — a method prone to fatigue, bias, and errors.</p>
+                <p>With the integration of AI technologies such as machine learning, computer vision, and predictive analytics, surveillance systems can now process and analyze vast volumes of visual and sensor data in real-time — a feat that was unimaginable just a decade ago.</p>
+                <p>AI eliminates bottlenecks by automating detection and decision-making processes. Cameras can identify suspicious movements, systems alert authorities in real time, and networks learn to recognize patterns and predict potential threats.</p>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Active Monitoring</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1,600+</div>
+                    <div class="stat-label">Detection Speed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">300+</div>
+                    <div class="stat-label">Trusted Business</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="technologies">
+            <span class="section-label">Core Technology</span>
+            <h2 class="section-title">Technologies Behind AI Surveillance</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Computer Vision</h4>
+                    <p>Enables machines to interpret visual input, identifying people, vehicles, or objects of interest.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Machine Learning</h4>
+                    <p>Systems learn from experience and data, improving recognition accuracy over time.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Facial Recognition</h4>
+                    <p>Maps and compares facial features to verify identity or track suspects efficiently.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Predictive Analytics</h4>
+                    <p>Uses data to forecast potential risks and predict criminal behavior patterns.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Natural Language Processing</h4>
+                    <p>Analyzes text and speech to detect potential digital threats and anomalies.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Edge Computing</h4>
+                    <p>Processes data locally at the source, reducing latency and improving real-time response.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="applications">
+            <span class="section-label">Use Cases</span>
+            <h2 class="section-title">Real-World Applications</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-number">01</div>
+                    <h3>AI-Powered Monitoring</h3>
+                    <p>Detect new, unknown, and zero-day threats using adaptive machine learning technology.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">02</div>
+                    <h3>24/7 Live Threat Intelligence</h3>
+                    <p>Get real-time visibility of attacks happening across the globe with comprehensive threat analysis.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">03</div>
+                    <h3>Smart CCTV Networks</h3>
+                    <p>Cameras automatically detect unusual behavior or intrusions with advanced pattern recognition.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">04</div>
+                    <h3>Access Control Systems</h3>
+                    <p>AI replaces traditional keycards with facial recognition for secure and seamless access.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">05</div>
+                    <h3>Crowd Monitoring</h3>
+                    <p>Used in public gatherings to measure crowd density and detect emergencies instantly.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">06</div>
+                    <h3>Airport & Border Security</h3>
+                    <p>AI scans passenger behavior and luggage for potential threats with high accuracy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="future">
+            <span class="section-label">Innovation</span>
+            <h2 class="section-title">The Future of AI Security</h2>
+            <div class="overview-content">
+                <p>Future advancements such as 5G, IoT, and quantum computing will further expand AI capabilities in security and surveillance systems.</p>
+                <p>AI-driven surveillance drones, emotion recognition systems, and predictive policing tools will play major roles in enhancing safety, provided ethical regulations evolve alongside technology.</p>
+                <p>As global security needs grow, AI will remain a cornerstone of modern safety infrastructure, combining speed, accuracy, and scalability to protect communities worldwide.</p>
+            </div>
+            <div class="cards-grid" style="margin-top: 40px;">
+                <div class="card">
+                    <h3>5G Integration</h3>
+                    <p>Ultra-fast connectivity enabling real-time data processing and instant threat response across networks.</p>
+                </div>
+                <div class="card">
+                    <h3>IoT Ecosystems</h3>
+                    <p>Interconnected devices creating comprehensive security networks for holistic protection.</p>
+                </div>
+                <div class="card">
+                    <h3>Quantum Computing</h3>
+                    <p>Revolutionary computing power for advanced encryption and threat prediction algorithms.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <span class="section-label">Get in Touch</span>
+            <h2 class="section-title">Ready to Stay Ahead of Threats?</h2>
+            <div class="contact-info">
+                <p>Whether you're dealing fear or just getting complacent, Oryn adapts to protect what matters most. Our AI-powered platform delivers real-time cyber threat monitoring and intelligence.</p>
+                <a href="mailto:contact@aisecurity.com" class="contact-email">contact@aisecurity.com</a>
+                <div class="social-icons">
+                    <div class="social-icon">f</div>
+                    <div class="social-icon">in</div>
+                    <div class="social-icon">ig</div>
+                    <div class="social-icon">tw</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Three.js 3D Background Animation
+        const canvas = document.getElementById('canvas3d');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 3000;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 100;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.15,
+            color: 0x667eea,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        
+        // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        
+        camera.position.z = 30;
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particlesMesh.rotation.x += 0.0005;
+            particlesMesh.rotation.y += 0.0008;
+            
+            camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .tech-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
