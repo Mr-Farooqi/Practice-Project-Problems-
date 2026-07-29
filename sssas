@@ -1,0 +1,21 @@
+<DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Mobile Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E1420;
+    --navy-deep:#090D15;
+    --panel:#161F2E;
+    --panel-edge:#232F44;
+    --off-white:#F4F1E8;
+    --muted:#9AA6B8;
+    --saffron:#FF7A29;
+    --saffron-dim:#FF7A2922;
+    --whatsapp:#2FD180;
+    --insta1:#FEDA75;
+    --insta2:#D62976;
